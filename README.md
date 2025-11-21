@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1>Raportti seminaariaiheesta: Next.js<h1>
 
-## Getting Started
+<h2>Johdanto:<h2>
 
-First, run the development server:
+Tavoitteeni oli toteuttaa Next.js-sovellus, jossa käytetään App Routeria, SSG:tä (Staattisen sivun generointi) ja api reittien käyttöä, tuli ongelman myötä opittua ja käytettyä myös async params -objektia.
+Halusin tehdä Next.js sovelluksen, koska ohjelmistoprojekti 2 kurssilla käytämme Next.js-sovellusta, mutta en itse päässyt tekemään yhtään Next.js:än create asioita. Next.js oli minulle tosi kiva ympäristö tehdä koodausta toisessa projektissa, joten halusin käyttää tätä mahdollisuutta syventyä enemmän Next.js:ään. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Projektin teema on Jalkapallo sivu, jossa voidaan katsoa erilaisen jalkapallo pelaajien tietoja. Tiedot ovat kuitenkin kovakoodattuja, eikä fetchata mistään.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<h2>Tavoitteet:<h2>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Seminaarin tavoitteet ovat:
+- Syventää aikaisemmat taidot Next.js frameworkissä ja ymmärtää erilaiset toimminnot.
+- Käyttää dynaamisia reittejä, eli esimerkiksi /players/[id], eli sivu näyttää erilaiselta kun id kohdalle tulee eri numero.
+- Toteuttaa yksinkertainen API-reitti Next.js:n serveritoiminnoilla 
+- Käsitellä dataa omasta "kirjastosta" eli tässä tapauksessa kovakoodattua dataa.
+- Halusin rakentaa selkeän ja navigoitavan käyttöliittymän
+- Tuli opittua myös sync params käsittelyä kun Turbopacking kanssa tuli haasteita. (Uusi asia Next.js 16 -versiossa)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<h2>Käytetyt teknologiat:<h2>
 
-## Learn More
+- Next.js
+    - Dynaamiset reitit
+    - SSG (Staattinen sivun generointi)
+    - API-reitit
+- Node.js
+- Turbopack
 
-To learn more about Next.js, take a look at the following resources:
+<h2>Toteutus:<h2>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   <h3>Rakenne:<h3> 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Next.js on mielestäni hyvä rakenteen takia, koska se on paljon selkeämpi kuin muut frameworkit. Ideana on että nimetään kansio sillä nimellä mikä halutaan että endpoint on eli kansion nimi "players" on  /players. Tämän jälkeen aina laitetaan page.tsx alle, joka on se tiedosto joka tulee näkyviin endpointin alla. Tämä mahdollistaa esimerkiksi, että endpointin alle tehdään components tiedosto, jonne säilytetään komponentit, jotka ovat käytössä vain esim. /players endpointissa.
 
-## Deploy on Vercel
+   src/app juuressa on myös page.tsx joka on etusivu. Sitten minulla on api/route.ts, jossa on pelaajien JSON-api. Sitten minulla on lib/players.ts, jossa on kovakoodattu database.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   <h3>SSG (staattisen sivun generointi):<h3>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Molemmat pelaajalista ja pelaajan sivu luodaan staattisesti, joka tapahtuu kun käytetään revalidate ja generateStaticParams.
+
+   <h3>Params-käyttäminen:<h3>
+
+   Minun piti käyttää params-objektia, koska jonkun takia en saanut pelaajien tiedot näkyviin, eli en saanut haettua dataa. Luin next.js dokumentaation läpi ja sain selville, että uudessa Next.js 16 versiossa tarvittiin params-objektia.
+
+   <h3>Api-reitti:<h3>
+
+   On api reitti (api/routes.ts), jossa palautetaan pelaajien tiedot JSON-muodossa.
+
+   <h3>Jalkapallo pelaajien data:<h3>
+
+Data on kovakoodattu lib/players.ts alla, joka mahdollistaa datan vaihdon ja lisäkysen jos on tarve.
+
+<h2>Haasteet ja ratkaisut:<h2>
+
+Haasteita oli, mutta vain muutama. Alkuun oli ongelma importin kanssa, kun yritin importtaa import { getPlayers } from "@/app/lib/players";
+VsCode näytti erroria, koska olin unohtanut laittaa /app väliin, mutta kun kopioin path, jolloin huomasin että app unohtui.
+
+Oli haastetta saada näkyviin pelaajien tiedot, käytin developer toolsia, jonka AI kertoi, että kannattaa käydä lukemassa Next.js dokumenttia (https://nextjs.org/docs/messages/sync-dynamic-apis), jolloin sain selville, että uudessa Next.js versiossa tarvitaan params. Tuli tämmöinen viesti näyviin: "params is a Promise and must be unwrapped"
+
+
+<h2>Lähteet<h2>
+
+<h3>Alla ovat tärkeimmät käytetyt lähteet:<h3>
+
+Next.js-dokumentaatio: https://nextjs.org/docs/messages/sync-dynamic-apis
+
+Next.js App Router: https://nextjs.org/docs/app
+
+Dynaamiset reitit: https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes
+
+API Routes (App Router): https://nextjs.org/docs/app/building-your-application/routing/router-handlers
+
+Tekoäly
