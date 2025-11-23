@@ -1,8 +1,6 @@
-// src/app/players/[id]/page.tsx
 import { getPlayerById, getPlayers } from "@/app/lib/players";
 import { notFound } from "next/navigation";
 
-// SSG: luodaan staattiset sivut etukäteen
 export async function generateStaticParams() {
     const players = getPlayers();
     return players.map((p) => ({ id: p.id }));

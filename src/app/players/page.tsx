@@ -1,6 +1,6 @@
 import { getPlayers } from "@/app/lib/players";
 
-export const revalidate = 10; // SSG
+export const revalidate = 10;
 
 export default function PlayersPage() {
     const players = getPlayers();

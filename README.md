@@ -71,3 +71,5 @@ Dynaamiset reitit: https://nextjs.org/docs/app/building-your-application/routing
 API Routes (App Router): https://nextjs.org/docs/app/building-your-application/routing/router-handlers
 
 Tekoäly
+
+VIDEO PROJEKTISTA: https://video.haaga-helia.fi/media/next.js_seminaari+video/0_cvl93aot
